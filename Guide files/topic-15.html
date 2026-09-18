@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Advanced — Week 3 Friday Study Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f8f9fa;--surf:#fff;--surf2:#f0f4f8;--brd:#dee2e6;
+  --tx:#212529;--mu:#6c757d;--ac:#0f766e;--acl:#ccfbf1;
+  --am:#b8860b;--cb:#051a0a;--ct:#d4edda;
+  --lime:#166534;--cor:#c0392b;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){
+  --bg:#051a0a;--surf:#0b2017;--surf2:#102b1a;--brd:#1a3d28;
+  --tx:#d4edda;--mu:#4a9060;--ac:#14b8a6;--acl:#042f2e;
+  --am:#FFD166;--cb:#051a0a;--ct:#d4edda;--lime:#34d399;--cor:#FF6B6B;
+}}
+:root[data-theme=dark]{
+  --bg:#051a0a;--surf:#0b2017;--surf2:#102b1a;--brd:#1a3d28;
+  --tx:#d4edda;--mu:#4a9060;--ac:#14b8a6;--acl:#042f2e;
+  --am:#FFD166;--cb:#051a0a;--ct:#d4edda;--lime:#34d399;--cor:#FF6B6B;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:'Inter',system-ui,sans-serif;font-size:16px;line-height:1.7}
+a{color:var(--ac);text-decoration:none}a:hover{text-decoration:underline}
+#site-header{position:sticky;top:0;z-index:100;background:var(--surf);
+  border-bottom:1px solid var(--brd);border-left:4px solid var(--ac);
+  display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:12px}
+.hdr-left{display:flex;flex-direction:column;gap:2px}
+.hdr-course{font-size:11px;color:var(--mu);font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+.hdr-title{font-size:15px;font-weight:700;color:var(--ac)}
+.theme-btn{background:var(--surf2);border:1px solid var(--brd);color:var(--tx);
+  padding:5px 12px;border-radius:20px;cursor:pointer;font-size:13px;white-space:nowrap}
+.theme-btn:hover{background:var(--acl)}
+#layout{display:flex;min-height:calc(100vh - 53px)}
+#sidebar{width:240px;flex-shrink:0;background:var(--surf);border-right:1px solid var(--brd);
+  position:sticky;top:53px;height:calc(100vh - 53px);overflow-y:auto;padding:12px 0}
+#sidebar nav a{display:flex;align-items:center;gap:8px;padding:5px 16px;
+  font-size:13px;color:var(--mu);border-left:3px solid transparent;transition:all .15s}
+#sidebar nav a:hover{color:var(--tx);background:var(--surf2);text-decoration:none}
+#sidebar nav a.active{color:var(--ac);border-left-color:var(--ac);background:var(--acl);font-weight:600}
+.nav-num{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ac);min-width:24px}
+.nav-section-label{padding:12px 16px 4px;font-size:10px;font-weight:700;color:var(--mu);
+  letter-spacing:.08em;text-transform:uppercase}
+#main{flex:1;padding:36px 44px;max-width:900px}
+.topic-section{margin-bottom:52px;padding-bottom:40px;border-bottom:1px solid var(--brd)}
+.topic-section:last-child{border-bottom:none}
+.topic-header{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.topic-num{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--ac);
+  background:var(--acl);padding:2px 8px;border-radius:4px;font-weight:700}
+.topic-header h2{font-size:22px;font-weight:700;color:var(--tx)}
+.quiz-badge{font-size:11px;background:var(--am);color:#000;
+  padding:2px 8px;border-radius:10px;font-weight:600;white-space:nowrap}
+.topic-theory{margin-bottom:18px}
+.topic-theory p{margin-bottom:10px;color:var(--tx)}
+.code-wrap{position:relative;margin:16px 0;border-radius:8px;overflow:hidden;border:1px solid var(--brd)}
+.code-bar{display:flex;align-items:center;justify-content:space-between;
+  background:var(--surf2);padding:6px 12px;border-bottom:1px solid var(--brd)}
+.code-lang{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ac);font-weight:600}
+.code-btns{display:flex;gap:6px}
+.code-btns button{background:transparent;border:1px solid var(--brd);color:var(--mu);
+  padding:3px 10px;border-radius:4px;font-size:11px;cursor:pointer;transition:all .15s}
+.code-btns button:hover{color:var(--ac);border-color:var(--ac);background:var(--acl)}
+.code-block{background:var(--cb);padding:18px 20px;overflow-x:auto;margin:0}
+.code-block code{font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.7;color:var(--ct);white-space:pre}
+.keypoints{background:var(--acl);border-left:4px solid var(--ac);
+  border-radius:0 8px 8px 0;padding:14px 18px;margin-top:16px}
+.keypoints h4{font-size:12px;font-weight:700;color:var(--ac);text-transform:uppercase;
+  letter-spacing:.06em;margin-bottom:8px}
+.keypoints ul{padding-left:18px}
+.keypoints li{font-size:14px;color:var(--tx);margin-bottom:4px}
+#exercises{margin-top:60px}
+#exercises>h2{font-size:28px;font-weight:800;color:var(--tx);margin-bottom:8px}
+#exercises>.intro{color:var(--mu);margin-bottom:32px;font-size:15px}
+.exercise{background:var(--surf);border:1px solid var(--brd);border-radius:10px;
+  margin-bottom:32px;overflow:hidden}
+.ex-header{display:flex;align-items:center;gap:12px;padding:16px 20px;
+  background:var(--surf2);border-bottom:1px solid var(--brd)}
+.ex-num{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--ac)}
+.ex-header h3{font-size:17px;font-weight:700;flex:1}
+.diff{font-size:11px;font-weight:700;padding:3px 10px;border-radius:10px}
+.diff.beginner{background:#e6f7f4;color:#0a7a65}
+.diff.intermediate{background:#fff3cd;color:#856404}
+.diff.advanced{background:#f8d7da;color:#842029}
+:root[data-theme=dark] .diff.beginner,:root:not([data-theme=light]) .diff.beginner{background:#042f2e;color:#14b8a6}
+:root[data-theme=dark] .diff.intermediate,:root:not([data-theme=light]) .diff.intermediate{background:#2a200a;color:#FFD166}
+:root[data-theme=dark] .diff.advanced,:root:not([data-theme=light]) .diff.advanced{background:#2a0a0a;color:#FF6B6B}
+.ex-body{padding:20px}
+.ex-section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin-bottom:8px}
+.task-box{background:var(--surf2);border:1px solid var(--brd);border-radius:6px;padding:14px 16px;margin-bottom:16px;font-size:15px}
+.editor-area{margin-top:16px}
+textarea.code-editor{width:100%;min-height:200px;background:var(--cb);color:var(--ct);
+  font-family:'JetBrains Mono',monospace;font-size:13px;padding:14px;
+  border:1px solid var(--brd);border-radius:6px;resize:vertical;line-height:1.6}
+.ex-btns{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.ex-btns button{padding:7px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid var(--brd);transition:all .15s}
+.btn-preview{background:var(--ac);color:#f0fdfa;border-color:var(--ac)}
+.btn-preview:hover{opacity:.88}
+.btn-hint{background:var(--surf2);color:var(--tx)}
+.btn-hint:hover{border-color:var(--ac);color:var(--ac)}
+.btn-sol{background:var(--surf2);color:var(--tx)}
+.btn-sol:hover{border-color:var(--lime);color:var(--lime)}
+.hint-box,.solution-box{margin-top:12px;padding:14px 16px;border-radius:6px;font-size:14px}
+.hint-box{background:var(--acl);border-left:3px solid var(--ac);color:var(--tx)}
+.solution-box .code-block{border-radius:6px;overflow:hidden;margin:0}
+.preview-frame{width:100%;height:340px;border:1px solid var(--brd);
+  border-radius:6px;margin-top:10px;background:#fff;display:none}
+#site-footer{text-align:center;padding:24px;color:var(--mu);font-size:13px;
+  border-top:1px solid var(--brd);margin-top:40px}
+@media(max-width:768px){#sidebar{display:none}#main{padding:20px 16px}}
+</style>
+</head>
+<body>
+<header id="site-header">
+  <div class="hdr-left">
+    <span class="hdr-course">K0126002 &middot; Web Programming &middot; Gachon University</span>
+    <span class="hdr-title">Week 3 Friday &middot; Topic 15: Putting CSS Advanced Together</span>
+  </div>
+  <button class="theme-btn" onclick="toggleTheme()">&#127769; Dark</button>
+</header>
+<div id="layout">
+  <main id="main" style="max-width:900px;margin:0 auto;float:none">
+    <div style="display:flex;justify-content:space-between;margin-bottom:20px;font-size:14px">
+      <a href="topic-14.html">&larr; Prev</a>
+      <a href="../WebPro_Week3_Friday_StudyGuide.html">Full Guide &rarr;</a>
+    </div>
+<section class="topic-section" id="topic-15">
+  <div class="topic-header">
+    <span class="topic-num">15</span>
+    <h2>Putting CSS Advanced Together</h2>
+    <span class="quiz-badge"></span>
+  </div>
+  <div class="topic-theory"><p>This final topic combines everything from this session into a real-world component: a responsive product card with position, pseudo-elements, transitions, CSS variables, and a media query. Study how each technique layers on top of the others.</p><p>Notice: CSS variables are defined in <code>:root</code>, the badge uses <code>position: absolute</code> on a <code>position: relative</code> card, the hover uses <code>transition</code>, the star uses <code>::before</code>, and the grid switches from 1 column to 3 columns at 640px.</p></div>
+  <div class="code-wrap">
+  <div class="code-bar">
+    <span class="code-lang">HTML / CSS</span>
+    <div class="code-btns">
+      <button onclick="previewCode(this)">Preview</button>
+      <button onclick="copyCode(this)">Copy</button>
+    </div>
+  </div>
+  <div class="code-block"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;style&gt;
+    :root {
+      --primary: #0f766e;
+      --accent:  #14b8a6;
+      --bg:      #f0fdfa;
+      --card:    #ffffff;
+      --text:    #1e293b;
+      --radius:  12px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); font-family: sans-serif; padding: 24px; color: var(--text); }
+
+    /* 1-column on mobile, 3-column on tablet+ */
+    .grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+    @media (min-width: 640px) {
+      .grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .card {
+      background: var(--card);
+      border: 2px solid #e2e8f0;
+      border-radius: var(--radius);
+      padding: 24px;
+      position: relative;           /* anchor for absolute badge */
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 32px rgba(15,118,110,0.18);
+      border-color: var(--accent);
+    }
+
+    /* Absolute badge */
+    .badge {
+      position: absolute; top: -10px; right: 16px;
+      background: var(--primary); color: white;
+      font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px;
+    }
+
+    /* ::before star */
+    .card-title::before { content: '⭐ '; }
+
+    .card-title { font-size: 18px; font-weight: 700; color: var(--primary); margin-bottom: 10px; }
+    .card-desc  { font-size: 14px; color: #64748b; line-height: 1.6; }
+    .card-price { font-size: 22px; font-weight: 700; color: var(--primary); margin-top: 14px; }
+
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #051a0a; --card: #0b2017; --text: #d4edda; }
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;grid&quot;&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;span class=&quot;badge&quot;&gt;NEW&lt;/span&gt;
+      &lt;h3 class=&quot;card-title&quot;&gt;CSS Course&lt;/h3&gt;
+      &lt;p class=&quot;card-desc&quot;&gt;Master CSS from selectors to Grid. Build real projects.&lt;/p&gt;
+      &lt;div class=&quot;card-price&quot;&gt;₩49,000&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;h3 class=&quot;card-title&quot;&gt;JS Bootcamp&lt;/h3&gt;
+      &lt;p class=&quot;card-desc&quot;&gt;JavaScript fundamentals through modern ES2025 features.&lt;/p&gt;
+      &lt;div class=&quot;card-price&quot;&gt;₩69,000&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;card&quot;&gt;
+      &lt;span class=&quot;badge&quot;&gt;HOT&lt;/span&gt;
+      &lt;h3 class=&quot;card-title&quot;&gt;Full Stack&lt;/h3&gt;
+      &lt;p class=&quot;card-desc&quot;&gt;HTML, CSS, JavaScript, and Node.js — end to end.&lt;/p&gt;
+      &lt;div class=&quot;card-price&quot;&gt;₩129,000&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></div>
+  </div>
+  <div class="keypoints"><h4>Key Points</h4><ul><li>CSS variables + position + transition + pseudo-elements work together.</li><li>position:relative on card + position:absolute on badge = corner badge.</li><li>@media min-width:640px switches the grid from 1 to 3 columns.</li><li>This is the pattern used in real product pages and dashboards.</li></ul></div>
+</section>
+    <div style="display:flex;justify-content:space-between;margin-top:20px;font-size:14px">
+      <a href="topic-14.html">&larr; Prev</a>
+      <a href="../WebPro_Week3_Friday_StudyGuide.html">Full Guide &rarr;</a>
+    </div>
+  </main>
+</div>
+<footer id="site-footer">K0126002 Web Programming &middot; Gachon University &middot; Week 3 Friday: CSS Advanced &mdash; Topic 15</footer>
+<script>
+function toggleTheme(){
+  const r=document.documentElement,cur=r.getAttribute('data-theme');
+  const next=cur==='dark'?'light':'dark';
+  r.setAttribute('data-theme',next);
+  document.querySelector('.theme-btn').textContent=next==='dark'?'☀ Light':'🌙 Dark';
+  try{localStorage.setItem('theme-w3f',next);}catch(e){}
+}
+function previewCode(btn){
+  const wrap=btn.closest('.code-wrap');
+  let fr=wrap.querySelector('.preview-frame');
+  if(!fr){fr=document.createElement('iframe');fr.className='preview-frame';wrap.appendChild(fr);}
+  fr.style.display='block'; fr.srcdoc=wrap.querySelector('.code-block code').innerText;
+}
+function copyCode(btn){
+  const code=btn.closest('.code-wrap').querySelector('.code-block code').innerText;
+  navigator.clipboard.writeText(code).then(()=>{const t=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=t,1500);});
+}
+try{const t=localStorage.getItem('theme-w3f');if(t){document.documentElement.setAttribute('data-theme',t);document.querySelector('.theme-btn').textContent=t==='dark'?'☀ Light':'🌙 Dark';}}catch(e){}
+</script>
+</body>
+</html>
